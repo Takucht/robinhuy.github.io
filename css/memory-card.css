@@ -1,0 +1,188 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+    background-color: beige;
+}
+
+h1 {
+	margin: 30px;
+	text-align: center;
+}
+
+img {
+	max-width: 100%;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(200, 240, 240, .75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(200, 240, 240, .75);
+    box-shadow: 0px 0px 5px 0px rgba(200, 240, 240, .75);
+    transition: all 0.3s linear;
+}
+
+.wrap {
+    position: relative;
+	margin: auto;
+    padding: 15px;
+    max-width: 1265px;
+    max-height: 616px;
+    height: 100%;
+    background: url("../img/memory-card/background.jpg");
+    border: 5px outset khaki;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+}
+
+.grid {
+    float: left;
+    width: 16.66666666%;
+    padding: 10px;
+}
+
+.card {
+    position: relative;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-ms-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	transition: all 0.5s;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+.card .front {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    z-index: 2;
+}
+
+.card .back {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: #58585B;
+    z-index: 1;
+}
+
+.card.flipped {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    border-color: #87be58;
+}
+
+img:hover, .flipped img {
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(200, 240, 240, .75);
+    -moz-box-shadow: 0px 0px 15px 5px rgba(200, 240, 240, .75);
+    box-shadow: 0px 0px 15px 5px rgba(200, 240, 240, .75);
+}
+
+.action-group {
+    position: relative;
+    margin: auto;
+    margin-top: 10px;
+    max-width: 1265px;
+    z-index: 9;
+}
+
+.action-group .btn {
+    cursor: pointer;
+    text-transform: uppercase;
+    color: #ffffff;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 2px;
+    width: 90px;
+    margin-right: 10px;
+    vertical-align: middle;
+    transition: all .3s ease-out;
+}
+
+.action-group .btn-start {
+    background-color: #388e3c;
+}
+
+.action-group .btn-start:hover {
+    background-color: #43a047;
+}
+
+.action-group .btn-reset {
+    background-color: #f57c00;
+}
+
+.action-group .btn-reset:hover {
+    background-color: #fb8c00;
+}
+
+.action-group .btn-group {
+    float: left;
+    width: 30%;
+}
+
+.action-group .progressbar {
+    float: left;
+    width: 70%;
+}
+
+.action-group .progressbar progress {
+    width: 100%;
+}
+
+#snow{
+    background: none;
+    font-family: Androgyne;
+    background-image: url('../img/s1.png'), url('../img/s2.png'), url('../img/s3.png');
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index:1;
+    -webkit-animation: snow 10s linear infinite;
+    -moz-animation: snow 10s linear infinite;
+    -ms-animation: snow 10s linear infinite;
+    animation: snow 10s linear infinite;
+}
+@keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-moz-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
+}
+@-webkit-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-ms-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}   

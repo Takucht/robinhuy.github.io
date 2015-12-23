@@ -1,0 +1,29 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Javascript jQuery</title>
+    <link rel="stylesheet" href="../css/memory-card.css">
+</head>
+<body>
+    <div id="snow"></div>
+
+    <h1>Memory Card</h1>
+
+    <div class="wrap">
+        <div class="content"></div>
+    </div>
+
+    <div class="action-group">
+        <div class="btn-group">
+            <button class="btn btn-start" onclick="start()">Start</button>
+            <button class="btn btn-reset" onclick="loadContent()">Reset</button>
+        </div>
+        
+        <div class="progressbar" style="display: none;">
+            <progress max="100" value="100"></progress>
+        </div>
+    </div>
+    
+    <script src="../js/jquery-2.1.4.min.js"></script>
+</body>
+</html>
