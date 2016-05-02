@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+</head>
+<body>
+
+<script>
+    var Heading = React.createElement('h1', null, 'Hello React');
+    var Paragraph = React.createElement('p', null, 'Welcome to React course');
+    var Wrapper = React.createElement('div', {className: 'wrapper'}, Heading, Paragraph);
+
+    ReactDOM.render(Wrapper, document.body);
+</script>
+
+</body>
+</html>
