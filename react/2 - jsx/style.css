@@ -1,4 +1,23 @@
+body {
+    background-color: #ecf0f5;
+}
+
 .box {
     border: 1px solid #eee;
-    border-top-width: 5px;;
+    border-top-width: 5px;
+    background-color: #ffffff;
+    min-height: 300px;
 }
+
+.box.todo {
+    border-top-color: #d9edf7;
+}
+
+.box.doing {
+    border-top-color: #fcf8e3;
+}
+
+.box.done {
+    border-top-color: #dff0d8;
+}
+

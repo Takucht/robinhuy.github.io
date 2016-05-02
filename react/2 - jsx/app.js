@@ -1,36 +1,28 @@
 var Heading = React.createClass({
     render: function() {
+        var margin = {
+            marginBottom: '30px'
+        };
+
         return (
-            <h1 className="text-center">Kanban board</h1>
+            <h1 className="text-center" style={margin}>Kanban board</h1>
         )
     }
 });
 
 var Content = React.createClass({
     render: function() {
-        var style1 = {
-            borderTopColor: '#d9edf7'
-        };
-
-        var style2 = {
-            borderTopColor: '#fcf8e3'
-        };
-
-        var style3 = {
-            borderTopColor: '#dff0d8'
-        };
-
         return (
             <div className="row">
-                <div className="col-sm-4 box" style={style1}>
+                <div className="col-sm-4 box todo">
                     <h2 className="text-center">Cần làm</h2>
                 </div>
 
-                <div className="col-sm-4 box" style={style2}>
+                <div className="col-sm-4 box doing">
                     <h2 className="text-center">Đang làm</h2>
                 </div>
 
-                <div className="col-sm-4 box" style={style3}>
+                <div className="col-sm-4 box done">
                     <h2 className="text-center">Hoàn thành</h2>
                 </div>
             </div>
