@@ -37,6 +37,7 @@ body {
 .list-unstyled > li {
     padding: 10px 15px;
     min-height: 20px;
+    background-color: #ffffff;
     border-bottom: 1px solid #eee;
 }
 
