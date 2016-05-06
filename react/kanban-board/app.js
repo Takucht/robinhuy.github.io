@@ -204,34 +204,36 @@ var App = React.createClass({
 
                 // Neu sort o cung context
                 if (originContext == afterContext) {
-                    // Xoa item o vi tri cu va add vao vi tri moi
-                    currentJob.splice(item.index(), 0, currentJob.splice(item.originIndex, 1)[0]);
-                    jobs[originContext] = currentJob;
+                    // Xoa item o vi tri cu
+                    var removed = currentJob.splice(item.originIndex, 1)[0];
 
-                    // Set new state
-                    self.setState({
-                        jobs: jobs
-                    });
+                    // Them item vua bi xoa vao vi tri moi
+                    currentJob.splice(item.index(), 0, removed);
+
+                    // Set lai bien jobs
+                    jobs[originContext] = currentJob;
                 } else {
                     var originJob = jobs[originContext];
 
-                    // Xoa item o context cu
+                    // Xoa item o context cu va set lai bien job
                     var removed = originJob.splice(item.originIndex, 1)[0];
+                    console.log(originJob)
                     jobs[originContext] = originJob;
 
-                    // Them item o context moi
+                    // Them item o context moi va set lai bien job
                     currentJob.splice(item.index(), 0, removed);
-
-                    // Set new state
-                    self.setState({
-                        jobs: jobs
-                    });
+                    jobs[afterContext] = currentJob;
                 }
 
                 // Cancel sortable
                 $(this).sortable('cancel');
+
+                // Set lai state sau khi cancel sortable
+                self.setState({
+                    jobs: jobs
+                });
             }
-        }).disableSelection();
+        });
     }
 });
 
