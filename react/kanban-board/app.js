@@ -12,38 +12,46 @@ var Heading = React.createClass({
 
 var PanelHeading = React.createClass({
     render: function () {
-        var displayButton = this.props.title != "Hoàn thành";
-
         return (
             <div className="panel-heading">
                 <h2>{this.props.title}</h2>
 
-                { displayButton ?
-                    <div className="btn-group btn-heading">
-                        <button type="button" className="btn btn-default dropdown-toggle"
-                            data-toggle="modal" data-target={"#modal-new-card-" + this.props.type}>
-                            <span className="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </div>
-                    : null }
+                <div className="btn-group btn-heading">
+                    <button type="button" className="btn btn-default dropdown-toggle"
+                        data-toggle="modal" data-target={"#modal-new-card-" + this.props.type}>
+                        <span className="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
             </div>
         )
     }
 });
 
-var PanelBody = React.createClass({
-    removeJob: function(){
-        this.props.removeJob(this.props.type);
+var Trash = React.createClass({
+    removeJob: function () {
+        // Remove job by key
+        this.props.removeJob(this.props.itemKey)
     },
     render: function () {
         return (
-            <ul className="list-unstyled">
+            <i className="glyphicon glyphicon-trash pull-right" onClick={this.removeJob}></i>
+        )
+    }
+});
+
+var PanelBody = React.createClass({
+    render: function () {
+        var self = this;
+        var type = self.props.type;
+
+        return (
+            <ul className="list-unstyled" data-type={type}>
                 {
                     this.props.jobs.map(function (job, index) {
                         return (
-                            <li key={index}>
+                            <li key={type + '-' + index} data-id={type + '-' + index}>
                                 {job}
-                                <i className="glyphicon glyphicon-trash pull-right" onClick={this.removeJob}></i>
+                                <Trash type={type} itemKey={type + '-' + index} removeJob={self.props.removeJob} />
                             </li>
                         )
                     })
@@ -62,11 +70,14 @@ var Modal = React.createClass({
             marginRight: '10px'
         };
 
+        // Set modal title
         var title = 'Thêm việc ';
         if (this.props.type == 'todo')
             title += 'cần làm';
-        else
+        else if (this.props.type == 'doing')
             title += 'đang làm';
+        else
+            title += 'đã hoàn thành';
 
         return (
             <div className="modal fade" id={"modal-new-card-" + this.props.type} tabindex="-1" role="dialog">
@@ -97,27 +108,26 @@ var Content = React.createClass({
         }
     },
     render: function () {
-        console.log(this.props.removeJob);
         return (
             <div className="row">
                 <div className="col-sm-4">
                     <div className="panel panel-default todo">
                         <PanelHeading title="Cần làm" type="todo" />
-                        <PanelBody jobs={this.props.jobs.todo} removeJob={this.props.removeJob} />
+                        <PanelBody jobs={this.props.jobs.todo} type="todo" removeJob={this.props.removeJob} />
                     </div>
                 </div>
 
                 <div className="col-sm-4">
                     <div className="panel panel-default doing">
                         <PanelHeading title="Đang làm" type="doing" />
-                        <PanelBody jobs={this.props.jobs.doing} />
+                        <PanelBody jobs={this.props.jobs.doing} type="doing" removeJob={this.props.removeJob} />
                     </div>
                 </div>
 
                 <div className="col-sm-4">
                     <div className="panel panel-default done">
                         <PanelHeading title="Hoàn thành" type="done" />
-                        <PanelBody jobs={this.props.jobs.done} />
+                        <PanelBody jobs={this.props.jobs.done} type="done" removeJob={this.props.removeJob} />
                     </div>
                 </div>
             </div>
@@ -142,22 +152,26 @@ var App = React.createClass({
     addJob: function (type, text) {
         var jobs = this.state.jobs;
         var jobType = this.state.jobs[type];
-        jobType.push(text || 'New Job');
+        jobType.push(text || 'Chưa nghĩ ra');
         jobs[type] = jobType;
 
         this.setState({
             jobs: jobs
-        })
+        });
     },
-    removeJob: function (type, key) {
+    removeJob: function (key) {
+        // Lay ra loai job can xoa va vi tri can xoa
+        var keys = key.split('-');
+        var type = keys[0];
+        var index = keys[1];
         var jobs = this.state.jobs;
         var jobType = this.state.jobs[type];
-        jobType.splice(key, 1);
+        jobType.splice(index, 1);
         jobs[type] = jobType;
 
         this.setState({
             jobs: jobs
-        })
+        });
     },
     render: function () {
         return (
@@ -166,12 +180,57 @@ var App = React.createClass({
                 <Content jobs={this.state.jobs} removeJob={this.removeJob} />
                 <Modal type="todo" addJob={this.addJob} />
                 <Modal type="doing" addJob={this.addJob} />
+                <Modal type="done" addJob={this.addJob} />
             </div>
         )
     },
     componentDidMount: function () {
+        var self = this;
+
+        // Khoi tao sortable
         $('.list-unstyled').sortable({
-            connectWith: '.list-unstyled'
+            connectWith: '.list-unstyled',
+            start: function (event, ui) {
+                // Lay vi tri va context ban dau
+                ui.item.originContext = ui.item.context.parentElement.getAttribute('data-type');
+                ui.item.originIndex = ui.item.index();
+            },
+            stop: function (event, ui) {
+                var jobs = self.state.jobs;
+                var item = ui.item;
+                var originContext = item.originContext;
+                var afterContext = item.context.parentElement.getAttribute('data-type');
+                var currentJob = jobs[afterContext];
+
+                // Neu sort o cung context
+                if (originContext == afterContext) {
+                    // Xoa item o vi tri cu va add vao vi tri moi
+                    currentJob.splice(item.index(), 0, currentJob.splice(item.originIndex, 1)[0]);
+                    jobs[originContext] = currentJob;
+
+                    // Set new state
+                    self.setState({
+                        jobs: jobs
+                    });
+                } else {
+                    var originJob = jobs[originContext];
+
+                    // Xoa item o context cu
+                    var removed = originJob.splice(item.originIndex, 1)[0];
+                    jobs[originContext] = originJob;
+
+                    // Them item o context moi
+                    currentJob.splice(item.index(), 0, removed);
+
+                    // Set new state
+                    self.setState({
+                        jobs: jobs
+                    });
+                }
+
+                // Cancel sortable
+                $(this).sortable('cancel');
+            }
         }).disableSelection();
     }
 });

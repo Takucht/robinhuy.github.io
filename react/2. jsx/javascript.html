@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Demo</title>
+    <script src="https://fb.me/react-15.0.2.js"></script>
+    <script src="https://fb.me/react-dom-15.0.2.js"></script>
+</head>
+<body>
+
+<div id="content"></div>
+
+<script>
+    var Content = React.createElement('div', {className: 'wrapper'},
+            React.createElement('h1', null, 'Hello React'),
+            React.createElement('p', null, 'Welcome to React course')
+    );
+
+    ReactDOM.render(Content, document.getElementById('content'));
+</script>
+
+</body>
+</html>
