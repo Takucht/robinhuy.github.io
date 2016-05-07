@@ -1,32 +1,3 @@
-var Heading = React.createClass({
-    render: function () {
-        var margin = {
-            marginBottom: '30px'
-        };
-
-        return (
-            <h1 className="text-center" style={margin}>Kanban board</h1>
-        )
-    }
-});
-
-var PanelHeading = React.createClass({
-    render: function () {
-        return (
-            <div className="panel-heading">
-                <h2>{this.props.title}</h2>
-
-                <div className="btn-group btn-heading">
-                    <button type="button" className="btn btn-default dropdown-toggle"
-                        data-toggle="modal" data-target={"#modal-new-card-" + this.props.type}>
-                        <span className="glyphicon glyphicon-plus"></span>
-                    </button>
-                </div>
-            </div>
-        )
-    }
-});
-
 var Trash = React.createClass({
     removeJob: function () {
         // Remove job by key
@@ -40,6 +11,12 @@ var Trash = React.createClass({
 });
 
 var PanelBody = React.createClass({
+    addJob: function (event) {
+        if (event.keyCode == 13) {
+            this.refs.newJob.value = '';
+            this.props.addJob(this.props.type, this.refs.newJob.value);
+        }
+    },
     render: function () {
         var self = this;
         var type = self.props.type;
@@ -56,78 +33,49 @@ var PanelBody = React.createClass({
                         )
                     })
                     }
+
+                <li>
+                    <input type="text" placeholder="Thêm mới" className="form-control" onKeyDown={this.addJob} ref="newJob" />
+                </li>
             </ul>
         )
     }
 });
 
-var Modal = React.createClass({
-    addJob: function () {
-        this.props.addJob(this.props.type, this.refs.description.value);
-    },
-    render: function () {
-        var margin = {
-            marginRight: '10px'
-        };
-
-        // Set modal title
-        var title = 'Thêm việc ';
-        if (this.props.type == 'todo')
-            title += 'cần làm';
-        else if (this.props.type == 'doing')
-            title += 'đang làm';
-        else
-            title += 'đã hoàn thành';
-
-        return (
-            <div className="modal fade" id={"modal-new-card-" + this.props.type} tabindex="-1" role="dialog">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <div className="form-group">
-                                <h4>{title}</h4>
-                                <input type="text" className="form-control" ref="description"/>
-                            </div>
-
-                            <div className="form-group text-right">
-                                <button type="button" className="btn btn-default" data-dismiss="modal" style={margin}>Đóng</button>
-                                <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.addJob}>Thêm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-});
-
 var Content = React.createClass({
-    getInitialState: function () {
-        return {
-            jobs: this.props.jobs
-        }
-    },
     render: function () {
         return (
             <div className="row">
                 <div className="col-sm-4">
                     <div className="panel panel-default todo">
-                        <PanelHeading title="Cần làm" type="todo" />
-                        <PanelBody jobs={this.props.jobs.todo} type="todo" removeJob={this.props.removeJob} />
+                        <div className="panel-heading">
+                            <h2>Cần làm</h2>
+                        </div>
+
+                        <PanelBody jobs={this.props.jobs.todo} type="todo"
+                            removeJob={this.props.removeJob} addJob={this.props.addJob} />
                     </div>
                 </div>
 
                 <div className="col-sm-4">
                     <div className="panel panel-default doing">
-                        <PanelHeading title="Đang làm" type="doing" />
-                        <PanelBody jobs={this.props.jobs.doing} type="doing" removeJob={this.props.removeJob} />
+                        <div className="panel-heading">
+                            <h2>Đang làm</h2>
+                        </div>
+
+                        <PanelBody jobs={this.props.jobs.doing} type="doing"
+                            removeJob={this.props.removeJob} addJob={this.props.addJob} />
                     </div>
                 </div>
 
                 <div className="col-sm-4">
                     <div className="panel panel-default done">
-                        <PanelHeading title="Hoàn thành" type="done" />
-                        <PanelBody jobs={this.props.jobs.done} type="done" removeJob={this.props.removeJob} />
+                        <div className="panel-heading">
+                            <h2>Hoàn thành</h2>
+                        </div>
+
+                        <PanelBody jobs={this.props.jobs.done} type="done"
+                            removeJob={this.props.removeJob} addJob={this.props.addJob} />
                     </div>
                 </div>
             </div>
@@ -174,13 +122,15 @@ var App = React.createClass({
         });
     },
     render: function () {
+        var overrideStyle = {
+            marginBottom: '30px'
+        };
+
         return (
             <div className="container">
-                <Heading />
-                <Content jobs={this.state.jobs} removeJob={this.removeJob} />
-                <Modal type="todo" addJob={this.addJob} />
-                <Modal type="doing" addJob={this.addJob} />
-                <Modal type="done" addJob={this.addJob} />
+                <h1 className="text-center" style={overrideStyle}>Kanban board</h1>
+
+                <Content jobs={this.state.jobs} removeJob={this.removeJob} addJob={this.addJob} />
             </div>
         )
     },
@@ -201,11 +151,12 @@ var App = React.createClass({
                 var originContext = item.originContext;
                 var afterContext = item.context.parentElement.getAttribute('data-type');
                 var currentJob = jobs[afterContext];
+                var removed;
 
                 // Neu sort o cung context
                 if (originContext == afterContext) {
                     // Xoa item o vi tri cu
-                    var removed = currentJob.splice(item.originIndex, 1)[0];
+                    removed = currentJob.splice(item.originIndex, 1)[0];
 
                     // Them item vua bi xoa vao vi tri moi
                     currentJob.splice(item.index(), 0, removed);
@@ -216,8 +167,7 @@ var App = React.createClass({
                     var originJob = jobs[originContext];
 
                     // Xoa item o context cu va set lai bien job
-                    var removed = originJob.splice(item.originIndex, 1)[0];
-                    console.log(originJob)
+                    removed = originJob.splice(item.originIndex, 1)[0];
                     jobs[originContext] = originJob;
 
                     // Them item o context moi va set lai bien job

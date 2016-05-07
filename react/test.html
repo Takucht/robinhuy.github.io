@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Kanban Board</title>
+
+    <!-- jQuery && jQueryUI -->
+    <script src="./Kanban Board_files/jquery.min.js"></script>
+    <link rel="stylesheet" href="./Kanban Board_files/jquery-ui.css">
+    <script src="./Kanban Board_files/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="./Kanban Board_files/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="./Kanban Board_files/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+
+    <!-- Custom style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="">
+<div id="content">
+    <div class="container"><h1 class="text-center" style="margin-bottom: 30px;">Kanban board</h1>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-default todo">
+                    <div class="panel-heading"><h2>Cần làm</h2>
+
+                        <div class="btn-group btn-heading">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="modal"
+                                    data-target="#modal-new-card-todo"><span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li>
+                            Tạo khung bài giảng React
+                            <i class="glyphicon glyphicon-trash pull-right"></i></li>
+                        <li>
+                            Tạo ví dụ demo
+                            <i class="glyphicon glyphicon-trash pull-right"></i></li>
+                        <li>
+                            Quay video hướng dẫn
+                            <i class="glyphicon glyphicon-trash pull-right"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default doing">
+                    <div class="panel-heading"><h2>Đang làm</h2>
+
+                        <div class="btn-group btn-heading">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="modal"
+                                    data-target="#modal-new-card-doing"><span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li>
+                            Test ví dụ
+                            <i class="glyphicon glyphicon-trash pull-right"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default done">
+                    <div class="panel-heading"><h2>Hoàn thành</h2>
+
+                        <div class="btn-group btn-heading">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="modal"
+                                    data-target="#modal-new-card-done"><span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-new-card-todo" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group"><h4>Thêm việc cần làm</h4><input type="text" class="form-control"></div>
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"
+                                    style="margin-right: 10px;">Đóng
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-new-card-doing" role="dialog" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group"><h4>Thêm việc đang làm</h4><input type="text" class="form-control">
+                        </div>
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"
+                                    style="margin-right: 10px;">Đóng
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-new-card-done" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group"><h4>Thêm việc đã hoàn thành</h4><input type="text" class="form-control">
+                        </div>
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"
+                                    style="margin-right: 10px;">Đóng
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
