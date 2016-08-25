@@ -1,0 +1,49 @@
+h5 {
+    margin: 0;
+    padding: 0.82rem 20px 0.656rem 20px;
+}
+
+#main-content {
+    margin-top: 3rem;
+}
+
+.card .collection {
+    margin: 0;
+    overflow: inherit;
+    min-height: 10px;
+}
+
+.card .collection .collection-item {
+    transition: 0s;
+    cursor: pointer;
+}
+
+.card .collection .collection-item.dragging {
+    -ms-transform: rotate(1deg); /* IE 9 */
+    -webkit-transform: rotate(1deg); /* Chrome, Safari, Opera */
+    transform: rotate(1deg);
+}
+
+.collection-item:hover .badge .material-icons {
+    display: block;
+}
+
+.ui-state-highlight {
+    background-color: #e0e0e0;
+    height: 43px;
+}
+
+.badge {
+    margin-right: -10px;
+    padding-right: 0;
+}
+
+.badge .material-icons {
+    display: none;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.action {
+    padding: 10px 20px;
+}
