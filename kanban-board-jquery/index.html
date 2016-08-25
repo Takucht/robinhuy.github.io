@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link type="text/css" rel="stylesheet" href="style.css" media="screen,projection"/>
+    <title>Kanban Board</title>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="plugins/materialize/css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection"/>
 </head>
 
 <body>
@@ -18,7 +19,12 @@
     <div class="row">
         <div class="col s12 m4">
             <div class="card">
-                <h5 class="red lighten-1 white-text">Todo</h5>
+                <h5 class="red lighten-1 white-text">
+                    Todo
+                    <div class="right tooltipped" data-position="top" data-delay="50" data-tooltip="Clear jobs" onclick="clearJob('todo')">
+                        <i class="tiny material-icons">settings_backup_restore</i>
+                    </div>
+                </h5>
                 <div class="collection sorted-list" id="todo"></div>
                 <div class="action">
                     <div class="input-field">
@@ -31,7 +37,12 @@
 
         <div class="col s12 m4">
             <div class="card">
-                <h5 class="orange lighten-1 white-text">Doing</h5>
+                <h5 class="orange lighten-1 white-text">
+                    Doing
+                    <div class="right tooltipped" data-position="top" data-delay="50" data-tooltip="Clear jobs" onclick="clearJob('doing')">
+                        <i class="tiny material-icons">settings_backup_restore</i>
+                    </div>
+                </h5>
                 <div class="collection sorted-list" id="doing"></div>
                 <div class="action">
                     <div class="input-field">
@@ -44,7 +55,12 @@
 
         <div class="col s12 m4">
             <div class="card">
-                <h5 class="green lighten-1 white-text">Done</h5>
+                <h5 class="green lighten-1 white-text">
+                    Done
+                    <div class="right tooltipped" data-position="top" data-delay="50" data-tooltip="Clear jobs" onclick="clearJob('done')">
+                        <i class="tiny material-icons">settings_backup_restore</i>
+                    </div>
+                </h5>
                 <div class="collection sorted-list" id="done"></div>
                 <div class="action">
                     <div class="input-field">
@@ -58,123 +74,8 @@
 </div>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-<script type="text/javascript" src="jqueryui/jquery-ui.min.js"></script>
-<script>
-    var JOB_TYPE = ['todo', 'doing', 'done'];
-    var list = getStorageData();
-
-    $(function () {
-        // Add job to lists
-        JOB_TYPE.forEach(function (type) {
-            var jobType = list[type] || [];
-            jobType.forEach(function (jobName) {
-                addJobToList(type, jobName);
-            });
-        });
-
-        // Init sortable
-        $('.sorted-list').sortable({
-            connectWith: '.sorted-list',
-            placeholder: 'ui-state-highlight',
-            start: function (event, ui) {
-                // Add style class
-                $(ui.item[0]).addClass('dragging');
-
-                // Set column and position
-                ui.item.oldColumnID = ui.item.context.parentElement.getAttribute('id');
-                ui.item.oldItemPosition = ui.item.index();
-            },
-            stop: function (event, ui) {
-                // Remove style class
-                $(ui.item[0]).removeClass('dragging');
-
-                // Get item, column and position
-                var item = ui.item;
-                var oldColumnID = item.oldColumnID;
-                var oldItemPosition = item.oldItemPosition;
-                var newColumnID = item.context.parentElement.getAttribute('id');
-                var currentColumn = list[newColumnID] || [];
-                var removedItem;
-
-                // If sorting in one column
-                if (oldColumnID == newColumnID) {
-                    // Remove item from old position
-                    removedItem = currentColumn.splice(oldItemPosition, 1)[0];
-
-                    // Add item to new position
-                    currentColumn.splice(item.index(), 0, removedItem);
-
-                    // Update data
-                    list[newColumnID] = currentColumn;
-                } else {
-                    var oldColumn = list[oldColumnID];
-
-                    // Remove item from old column
-                    removedItem = oldColumn.splice(oldItemPosition, 1)[0];
-                    list[oldColumnID] = oldColumn;
-
-                    // Add item to new column
-                    currentColumn.splice(item.index(), 0, removedItem);
-                    list[newColumnID] = currentColumn;
-                }
-
-                // Store data to local storage
-                setStorageData(list);
-            }
-        });
-    });
-
-    function newJob(type, input) {
-        // Check key press is Enter
-        if (event.key == "Enter") {
-            var jobName = $(input).val();
-
-            // Get data from local storage
-            var list = getStorageData();
-
-            // Store data to local storage
-            if (!list[type]) list[type] = [];
-            list[type].push(jobName);
-            setStorageData(list);
-
-            // Add job to list and reset input
-            addJobToList(type, jobName);
-            $(input).val('');
-        }
-    }
-
-    function addJobToList(type, jobName) {
-        var item = '<div class="collection-item"> ' + jobName +
-                '<span class="badge"><i class="tiny material-icons">mode_edit</i></span>' +
-                '</div>';
-        $('#' + type).append(item);
-    }
-
-    function getStorageData() {
-        if (typeof(Storage) !== "undefined") {
-            var list;
-
-            try {
-                list = JSON.parse(localStorage.getItem('list'));
-            } catch (e) {
-                list = {};
-            }
-
-            return list;
-        } else {
-            alert('Sorry! Your browser is too old to use this application.');
-            return {};
-        }
-    }
-
-    function setStorageData(data) {
-        if (typeof(Storage) !== "undefined") {
-            localStorage.setItem('list', JSON.stringify(data));
-        } else {
-            alert('Sorry! Your browser is too old to use this application.');
-        }
-    }
-</script>
+<script type="text/javascript" src="plugins/materialize/js/materialize.min.js"></script>
+<script type="text/javascript" src="plugins/jqueryui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
