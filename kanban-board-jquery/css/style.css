@@ -3,13 +3,12 @@ h5 {
     padding: 0.82rem 20px 0.656rem 20px;
 }
 
-#main-content {
-    margin-top: 3rem;
+h5 .count {
+    font-size: 1.4rem;
 }
 
-.right.tooltipped {
-    padding: 0 5px;
-    cursor: pointer;
+#main-content {
+    margin-top: 3rem;
 }
 
 .card .collection {
@@ -21,7 +20,7 @@ h5 {
 
 .card .collection .collection-item {
     transition: 0s;
-    cursor: pointer;
+    cursor: move;
 }
 
 .card .collection .collection-item.dragging {
@@ -46,8 +45,12 @@ h5 {
 
 .collection-item .badge .material-icons {
     display: none;
-    vertical-align: middle;
     cursor: pointer;
+    line-height: 1.5rem;
+}
+
+.collection-item .badge:hover .material-icons {
+    background-color: #e0e0e0;
 }
 
 .action {

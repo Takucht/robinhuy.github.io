@@ -23,8 +23,7 @@ function initSortable() {
             $(ui.item[0]).addClass('dragging');
 
             // Set column and position
-            var columnID = ui.item.context.parentElement.getAttribute('id');
-            ui.item.oldColumnID = columnID;
+            ui.item.oldColumnType = ui.item.context.parentElement.getAttribute('id');
             ui.item.oldItemPosition = ui.item.index();
         },
         stop: function (event, ui) {
@@ -34,22 +33,18 @@ function initSortable() {
             // Get old and new column
             var item = ui.item;
             var oldItemPosition = item.oldItemPosition;
-            var oldColumnID = item.oldColumnID;
-            var newColumnID = item.context.parentElement.getAttribute('id');
-            var oldColumn = list[oldColumnID] || [];
-            var newColumn = list[newColumnID] || [];
+            var oldColumnType = item.oldColumnType;
+            var newColumnType = item.context.parentElement.getAttribute('id');
 
             // Remove Item from old position
-            console.log(list[oldColumnID]);
-            oldColumn.splice(oldItemPosition, 1)[0];
-            list[oldColumnID] = oldColumn;
+            list[oldColumnType].splice(oldItemPosition, 1);
+            updateJobCount(oldColumnType);
 
             // Add item to new position
-            newColumn.splice(item.index(), 0, item[0].innerText);
-            list[newColumnID] = newColumn;
+            list[newColumnType].splice(item.index(), 0, item[0].innerText);
+            updateJobCount(newColumnType);
 
             // Store data to local storage
-            console.log(list);
             setStorageData(list);
         }
     });
@@ -61,6 +56,9 @@ function getStorageData() {
 
         try {
             data = JSON.parse(localStorage.getItem('list')) || {};
+            JOB_TYPE.forEach(function (type) {
+                if (!Array.isArray(data[type])) data[type] = [];
+            });
         } catch (e) {
             data = {};
         }
@@ -81,38 +79,42 @@ function newJob(type, input) {
 
     // Check key press is Enter
     if (event.key === "Enter" && jobName !== "") {
-        // Get data from local storage
-        var list = getStorageData();
-
         // Store data to local storage
         if (!list[type]) list[type] = [];
         list[type].push(jobName);
         setStorageData(list);
 
-        // Add job to list and reset input
+        // Update DOM and reset input
         addJobToList(type, jobName);
         $(input).val('');
         initSortable();
-        console.log(list);
     }
 }
 
 function addJobToList(type, jobName) {
     var item = '<div class="collection-item"> ' + jobName +
-        '<span class="badge" onclick="editJob(this)"><i class="tiny material-icons">mode_edit</i></span>' +
+        '<span class="badge" onclick="deleteJob(this)"><i class="tiny material-icons">delete</i></span>' +
         '</div>';
     $('#' + type).append(item);
+
+    // Update count of job
+    updateJobCount(type);
 }
 
-function editJob(span) {
-    
-}
+function deleteJob(span) {
+    var item = $(span).parent();
+    var columnType = item.parent().attr('id');
+    var itemPosition = $('#' + columnType + ' .collection-item').index(item);
 
-function clearJob(type) {
-    // Update data
-    list[type] = [];
+    // Remove item from list
+    list[columnType].splice(itemPosition, 1);
     setStorageData(list);
 
-    // Remove all items of column by type
-    $('#' + type).html('');
+    // Remove item form DOM and update count
+    item.remove();
+    updateJobCount(columnType);
+}
+
+function updateJobCount(type) {
+    $('#' + type).prev('h5').children('.count').text('(' + list[type].length + ')');
 }
