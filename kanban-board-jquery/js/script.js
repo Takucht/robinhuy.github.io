@@ -2,6 +2,7 @@ var JOB_TYPE = ['todo', 'doing', 'done'];
 var list = getStorageData();
 
 $(function () {
+    $('.modal-trigger').leanModal();
     // Add job to lists
     JOB_TYPE.forEach(function (type) {
         var jobType = list[type] || [];
@@ -102,17 +103,32 @@ function addJobToList(type, jobName) {
 }
 
 function deleteJob(span) {
-    var item = $(span).parent();
-    var columnType = item.parent().attr('id');
-    var itemPosition = $('#' + columnType + ' .collection-item').index(item);
+    var btnDelete = $('#btn-delete');
+    var modal = $('#modal-confirm');
 
-    // Remove item from list
-    list[columnType].splice(itemPosition, 1);
-    setStorageData(list);
+    // Open confirm modal
+    modal.openModal();
 
-    // Remove item form DOM and update count
-    item.remove();
-    updateJobCount(columnType);
+    // Unbind old event on Agree button
+    btnDelete.off('click');
+
+    // Bind new event onclick on Agree button
+    btnDelete.on('click', function () {
+        var item = $(span).parent();
+        var columnType = item.parent().attr('id');
+        var itemPosition = $('#' + columnType + ' .collection-item').index(item);
+
+        // Remove item from list
+        list[columnType].splice(itemPosition, 1);
+        setStorageData(list);
+
+        // Remove item form DOM and update count
+        item.remove();
+        updateJobCount(columnType);
+
+        // Close modal
+        modal.closeModal();
+    })
 }
 
 function updateJobCount(type) {

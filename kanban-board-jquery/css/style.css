@@ -56,3 +56,16 @@ h5 .count {
 .action {
     padding: 10px 20px;
 }
+
+.modal {
+    width: 40%;
+}
+
+.modal .modal-content h4 {
+    font-size: 1.64rem;
+    line-height: 110%;
+}
+
+#btn-delete {
+    margin-right: 10px;
+}
