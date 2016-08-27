@@ -96,7 +96,12 @@ var app = {
         }
     },
     addJobToList: function (type, jobName) {
-        var item = '<div class="collection-item"> ' + jobName +
+        // Convert HTML entities
+        var tmp = $('<div></div>');
+        tmp.text(jobName);
+
+        // Append item to list
+        var item = '<div class="collection-item"> ' + tmp.html() +
             '<span class="badge" onclick="app.deleteJob(this)"><i class="tiny material-icons">delete</i></span>' +
             '</div>';
         $('#' + type).append(item);
