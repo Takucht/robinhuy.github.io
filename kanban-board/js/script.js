@@ -1,4 +1,4 @@
-var JOB_TYPE = ['todo', 'doing', 'done'];
+var COLUMN_TYPE = ['todo', 'doing', 'done'];
 
 var DB = {
     getData: function () {
@@ -7,7 +7,7 @@ var DB = {
 
             try {
                 data = JSON.parse(localStorage.getItem('list')) || {};
-                JOB_TYPE.forEach(function (type) {
+                COLUMN_TYPE.forEach(function (type) {
                     if (!Array.isArray(data[type])) data[type] = [];
                 });
             } catch (e) {
@@ -25,6 +25,15 @@ var DB = {
     }
 };
 
+var Util = {
+    showLoading: function () {
+        $('.overlay').removeClass('hidden');
+    },
+    hideLoading: function () {
+        $('.overlay').addClass('hidden');
+    }
+};
+
 var list = DB.getData();
 
 var app = {
@@ -32,15 +41,18 @@ var app = {
         var self = this;
 
         // Add job to lists
-        JOB_TYPE.forEach(function (type) {
-            var jobType = list[type] || [];
-            jobType.forEach(function (jobName) {
+        COLUMN_TYPE.forEach(function (type) {
+            var columnType = list[type] || [];
+            columnType.forEach(function (jobName) {
                 self.addJobToList(type, jobName);
             });
         });
 
         // Init sortable
         this.initSortable();
+
+        // Hide loading
+        Util.hideLoading();
     },
     initSortable: function () {
         var self = this;
@@ -91,7 +103,6 @@ var app = {
 
             // Update DOM and reset input
             this.addJobToList(type, jobName);
-            // this.initSortable();
             $(input).val('');
         }
     },
