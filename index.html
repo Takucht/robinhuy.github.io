@@ -1,35 +1,128 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta property="fb:app_id" content="1060439867385425">
+    <meta property="og:site_name" content="robinhuy.github.io">
+    <meta property="og:title" content="Robin Huy">
+    <meta property="og:description" content="HTML, CSS, Javascript applications">
+    <!-- <meta property="og:image" content="https://robinhuy.github.io/kanban-board/img/thumbnail.jpg"> -->
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:url" content="https://robinhuy.github.io/">
+    <meta property="og:type" content="article">
     <title>Robin Huy</title>
-    <meta charset="utf-8">
-    <link href="css/50x.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300italic&subset=vietnamese' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:300,400' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300' rel='stylesheet' type='text/css'>
+    <link rel="canonical" href="https://robinhuy.github.io/">
+    <link rel="icon" type="image/png" href="public/img/favicon.png"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="public/plugins/materialize/css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="public/css/style.css" media="screen,projection"/>
 </head>
-<body>
-<div class="content">
-    <div class="wrap">
-        <div class="content-grid">
-            <p><img src="img/50x/top.png" title=""></p>
-        </div>
-        <div class="grid">
-            <p><img src="img/50x/coming.png" title=""></p>
 
-            <h3>Trang web hiện đang trong quá trình xây dựng.</h3>
+<body class="grey lighten-4">
+<nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="#" class="brand-logo">Robin Huy</a>
+        
+        <ul class="right hide-on-med-and-down">
+            <li>
+                <a href="https://techmaster.vn/posts/53" target="_blank">Blog Techmaster</a>
+            </li>
+            <li>
+                <a href="#!" target="_blank">Bài tập học viên</a>
+            </li>
+        </ul>
 
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-        <div class="footer">
-            <p class="a">
-                <a href="https://www.facebook.com/groups/1670423099861484/"><img src="img/50x/facebook.png" title=""></a>
-            </p>
-        </div>
-        <div class="clear"></div>
+        <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
+            <li>
+                <a href="https://techmaster.vn/posts/53" target="_blank">Blog Techmaster</a>
+            </li>
+            <li>
+                <a href="#!" target="_blank">Bài tập học viên</a>
+            </li>
+        </ul>
+
+        <a href="#" data-activates="nav-mobile" class="button-collapse">
+            <i class="material-icons">menu</i>
+        </a>
     </div>
-</div>
-<div class="clear"></div>
+</nav>
+
+<section class="container" id="main-content">
+    <h1 id="main-title">
+        Demo bài tập khóa học <a href="https://techmaster.vn/khoa-hoc/25487/web-co-ban-html5-css3-va-javascript"  target="_blank">Web cơ bản HTML5, CSS3 và Javascript</a>
+    </h1>
+
+    <div class="row">
+        <div class="col s12 m4">
+            <div class="card">
+                <div class="card-image">
+                    <a href="/trung-thu/">
+                        <img src="trung-thu/img/banh1.jpg" alt="Trung Thu">
+                    </a>
+                </div>
+                <div class="card-content">
+                    <p>Bài tập CSS Animation</p>
+                </div>
+                <div class="card-action">
+                    <a href="/trung-thu/">Trung Thu</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+            <div class="card">
+                <div class="card-image">
+                    <a href="/memory-card/">
+                        <img src="memory-card/img/thumbnail.jpg" alt="Memory Card"/>
+                    </a>
+                </div>
+                <div class="card-content">
+                    <p>Bài tập jQuery</p>
+                </div>
+                <div class="card-action">
+                    <a href="/memory-card/">Memory Card</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+            <div class="card">
+                <div class="card-image">
+                    <a href="/kanban-board/">
+                        <img src="kanban-board/img/thumbnail.jpg" alt="Kanban Board"/>
+                    </a>
+                </div>
+                <div class="card-content">
+                    <p>Bài tập Web applications</p>
+                </div>
+                <div class="card-action">
+                    <a href="/kanban-board/">Kanban Board</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer-copyright">
+    <div class="container">
+        <hr/>
+        <div class="row">
+            <div class="col m12">
+                <p class="right-align">Made by Robin Huy © 2016</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="public/js/jquery.min.js"></script>
+<script type="text/javascript" src="public/plugins/materialize/js/materialize.min.js"></script>
+<script type="text/javascript">
+    (function($){
+      $(function(){
+        $('.button-collapse').sideNav();
+      });
+    })(jQuery);
+</script>
 </body>
 </html>
