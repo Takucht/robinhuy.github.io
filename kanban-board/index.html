@@ -48,9 +48,9 @@
 
                 <div class="collection sorted-list" id="todo"></div>
 
-                <div class="action">
-                    <div class="input-field">
-                        <input id="new_job_todo" type="text" onkeydown="app.newJob('todo', this)">
+                <div class="action row">
+                    <div class="input-field col s12">
+                        <input id="new_job_todo" type="text" onkeydown="app.newJob(event, 'todo', this)">
                         <label for="new_job_todo">New job</label>
                     </div>
                 </div>
@@ -63,9 +63,9 @@
 
                 <div class="collection sorted-list" id="doing"></div>
 
-                <div class="action">
-                    <div class="input-field">
-                        <input id="new_job_doing" type="text" onkeydown="app.newJob('doing', this)">
+                <div class="action row">
+                    <div class="input-field col s12">
+                        <input id="new_job_doing" type="text" onkeydown="app.newJob(event, 'doing', this)">
                         <label for="new_job_doing">New job</label>
                     </div>
                 </div>
@@ -78,9 +78,9 @@
 
                 <div class="collection sorted-list" id="done"></div>
 
-                <div class="action">
-                    <div class="input-field">
-                        <input id="new_job_done" type="text" onkeydown="app.newJob('done', this)">
+                <div class="action row">
+                    <div class="input-field col s12">
+                        <input id="new_job_done" type="text" onkeydown="return app.newJob(event, 'done', this)">
                         <label for="new_job_done">New job</label>
                     </div>
                 </div>

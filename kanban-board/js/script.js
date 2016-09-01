@@ -91,11 +91,14 @@ var app = {
             }
         });
     },
-    newJob: function (type, input) {
+    newJob: function (e, type, input) {
         var jobName = $(input).val();
 
-        // Check key press is Enter
-        if (event.key === "Enter" && jobName !== "") {
+        // Get event onkeydown
+        var event = window.event || e;
+
+        // Check key press is Enter (code = 13)
+        if (event.keyCode === 13 && jobName !== "") {
             // Store data to local storage
             if (!list[type]) list[type] = [];
             list[type].push(jobName);
