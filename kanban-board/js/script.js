@@ -1,4 +1,5 @@
 var COLUMN_TYPE = ['todo', 'doing', 'done'];
+var DOING_LIMIT = 3;
 
 var DB = {
     getData: function () {
@@ -31,6 +32,15 @@ var Util = {
     },
     hideLoading: function () {
         $('.overlay').addClass('hidden');
+    },
+    openAlertModal: function () {
+        $('#modal-alert').openModal();
+    },
+    openConfirmModal: function () {
+        $('#modal-confirm').openModal();
+    },
+    closeConfirmModal: function () {
+        $('#modal-confirm').closeModal();
     }
 };
 
@@ -49,12 +59,12 @@ var app = {
         });
 
         // Init sortable
-        this.initSortable();
+        this.sortJob();
 
         // Hide loading
         Util.hideLoading();
     },
-    initSortable: function () {
+    sortJob: function () {
         var self = this;
 
         $('.sorted-list').sortable({
@@ -78,16 +88,21 @@ var app = {
                 var oldColumnType = item.oldColumnType;
                 var newColumnType = item.context.parentElement.getAttribute('id');
 
-                // Remove Item from old position
-                list[oldColumnType].splice(oldItemPosition, 1);
-                self.updateJobCount(oldColumnType);
+                if (newColumnType == 'doing' && list[newColumnType].length >= DOING_LIMIT) {
+                    $('.sorted-list').sortable('cancel');
+                    Util.openAlertModal();
+                } else {
+                    // Remove Item from old position
+                    list[oldColumnType].splice(oldItemPosition, 1);
+                    self.updateJobCount(oldColumnType);
 
-                // Add item to new position
-                list[newColumnType].splice(item.index(), 0, item[0].innerText);
-                self.updateJobCount(newColumnType);
+                    // Add item to new position
+                    list[newColumnType].splice(item.index(), 0, item[0].innerText);
+                    self.updateJobCount(newColumnType);
 
-                // Store data to local storage
-                DB.setData(list);
+                    // Store data to local storage
+                    DB.setData(list);
+                }
             }
         });
     },
@@ -101,11 +116,19 @@ var app = {
         if (event.keyCode === 13 && jobName !== "") {
             // Store data to local storage
             if (!list[type]) list[type] = [];
-            list[type].push(jobName);
-            DB.setData(list);
 
-            // Update DOM and reset input
-            this.addJobToList(type, jobName);
+            // Limit doing job
+            if (type == 'doing' && list[type].length >= DOING_LIMIT) {
+                Util.openAlertModal();
+            } else {
+                list[type].push(jobName);
+                DB.setData(list);
+
+                // Update DOM
+                this.addJobToList(type, jobName);
+            }
+
+            // Reset input
             $(input).val('');
         }
     },
@@ -125,11 +148,9 @@ var app = {
     },
     deleteJob: function (span) {
         var btnDelete = $('#btn-delete');
-        var modal = $('#modal-confirm');
         var self = this;
 
-        // Open confirm modal
-        modal.openModal();
+        Util.openConfirmModal();
 
         // Unbind old event on Agree button
         btnDelete.off('click');
@@ -148,8 +169,7 @@ var app = {
             item.remove();
             self.updateJobCount(columnType);
 
-            // Close modal
-            modal.closeModal();
+            Util.closeConfirmModal();
         })
     },
     updateJobCount: function (type) {
