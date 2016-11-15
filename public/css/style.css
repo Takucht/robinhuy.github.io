@@ -1,3 +1,7 @@
+body {
+    overflow: scroll;
+}
+
 #main-content {
 	margin-top: 3rem;
 }
