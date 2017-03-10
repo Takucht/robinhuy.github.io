@@ -1,18 +1,20 @@
-var character, scoreArea;
+var character;
 var obstacles = [];
+var score = 0;
 
 var gameArea = {
-    canvas: document.createElement('canvas'),
+    canvas: document.getElementById('gameArea'),
     start: function () {
         // Create canvas
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        if (window.innerWidth > 768) {
-            this.canvas.width = 480;
-            this.canvas.height = 270;
-            // this.canvas.width = window.innerWidth * 70 / 100;
-            // this.canvas.height = window.innerHeight * 50 / 100;
-        }
+        // this.canvas.width = window.innerWidth;
+        // this.canvas.height = window.innerHeight;
+        // if (window.innerWidth > 768) {
+        //     this.canvas.width = 480;
+        //     this.canvas.height = 270;
+        //     // this.canvas.width = window.innerWidth * 70 / 100;
+        //     // this.canvas.height = window.innerHeight * 50 / 100;
+        // }
+
         this.context = this.canvas.getContext('2d');
 
         // Insert canvas to body
@@ -31,9 +33,8 @@ var gameArea = {
 };
 
 function startGame() {
-    character = new GameComponent(30, 30, 'img/io.png', 10, 120, 'image');
+    character = new GameComponent(40, 40, 'img/io-small.png', 10, 120, 'image');
     character.gravity = 0.2;
-    // scoreArea = new GameComponent("30px", "Consolas", "black", 280, 40, "text");
     gameArea.start();
 }
 
@@ -43,7 +44,6 @@ function GameComponent(width, height, model, x, y, type) {
         this.image = new Image();
         this.image.src = model;
     }
-    this.score = 0;
     this.width = width;
     this.height = height;
     this.angle = 0;
@@ -55,7 +55,6 @@ function GameComponent(width, height, model, x, y, type) {
     this.gravitySpeed = 0;
 
     this.update = function () {
-
         var ctx = gameArea.context;
 
         if (type == "image") {
@@ -122,6 +121,7 @@ function updateGameArea() {
     // Game over when character hit obstacles
     for (i = 0; i < obstacles.length; i++) {
         if (character.crashWith(obstacles[i])) {
+            gameArea.stop();
             return;
         }
     }
@@ -130,40 +130,41 @@ function updateGameArea() {
     gameArea.frameNo += 1;
 
     // Add obstacles every 150px
-    if (gameArea.frameNo == 1 || (gameArea.frameNo / 150) % 1 == 0) {
+    if (gameArea.frameNo == 1 || (gameArea.frameNo / 50) % 1 == 0) {
         canvasWidth = gameArea.canvas.width;
         canvasHeight = gameArea.canvas.height;
-        minHeight = 20;
+        minHeight = 30;
         maxHeight = 200;
         height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
-        minGap = 50;
+        minGap = 80;
         maxGap = 200;
         gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
 
         // Add top obstacle
-        obstacles.push(new GameComponent(20, height, "green", canvasWidth, 0));
+        obstacles.push(new GameComponent(20, height, "orange", canvasWidth, 0));
 
         // Add bottom obstacle
-        obstacles.push(new GameComponent(20, canvasHeight - height - gap, "green", canvasWidth, height + gap));
+        obstacles.push(new GameComponent(20, canvasHeight - height - gap, "orange", canvasWidth, height + gap));
+
+        score++;
+        document.getElementById('score').innerText = score;
     }
 
-    // Move obstacles to left 1px
+    // Move obstacles to left 3px
     for (i = 0; i < obstacles.length; i++) {
-        obstacles[i].x -= 1;
+        obstacles[i].x -= 3;
         obstacles[i].update();
     }
 
-    // scoreArea.text = "SCORE: " + gameArea.frameNo;
-    // scoreArea.update();
     character.newPosition();
     character.update();
 }
 
 function moveUp() {
-        if (character.y > 0) {
-            character.gravity = -0.4;
-            character.angle = -15 * Math.PI / 180;
-        }
+    if (character.y > 0) {
+        character.gravity = -0.4;
+        character.angle = -15 * Math.PI / 180;
+    }
 }
 
 function moveDown() {
@@ -171,9 +172,4 @@ function moveDown() {
         character.gravity = 0.2;
         character.angle = 0;
     }
-}
-
-function stopMove() {
-    character.speedX = 0;
-    character.speedY = 0;
 }

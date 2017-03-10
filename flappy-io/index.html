@@ -25,7 +25,12 @@
     </script>
 </head>
 
-<body onload="startGame()" onmousedown="moveUp()" onmouseup="moveDown()">
+<body>
+<canvas id="gameArea" onmousedown="moveUp()" onmouseup="moveDown()" width="480" height="270"></canvas>
+<br/>
+<button type="button" onclick="startGame()">START</button>
+
+<p id="score">0</p>
 
 <script type="text/javascript" src="js/script.js"></script>
 </body>
