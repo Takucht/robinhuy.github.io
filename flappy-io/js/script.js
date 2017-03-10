@@ -22,6 +22,9 @@ var gameArea = {
         this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
     },
+    stop: function () {
+        clearInterval(this.interval);
+    },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -29,7 +32,7 @@ var gameArea = {
 
 function startGame() {
     character = new GameComponent(30, 30, 'img/io.png', 10, 120, 'image');
-    character.gravity = 0.05;
+    character.gravity = 0.2;
     // scoreArea = new GameComponent("30px", "Consolas", "black", 280, 40, "text");
     gameArea.start();
 }
@@ -43,6 +46,7 @@ function GameComponent(width, height, model, x, y, type) {
     this.score = 0;
     this.width = width;
     this.height = height;
+    this.angle = 0;
     this.speedX = 0;
     this.speedY = 0;
     this.x = x;
@@ -51,30 +55,48 @@ function GameComponent(width, height, model, x, y, type) {
     this.gravitySpeed = 0;
 
     this.update = function () {
+
         var ctx = gameArea.context;
+
         if (type == "image") {
-            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+            if (this.angle == 0) {
+                ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+            } else {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.translate(-12, 0);
+                ctx.drawImage(this.image, this.x, 0, this.width, this.height);
+                ctx.restore();
+            }
         } else {
             ctx.fillStyle = model;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
+
     };
-    
+
     this.newPosition = function () {
         this.gravitySpeed += this.gravity;
         this.x += this.speedX;
+
         this.y += this.speedY + this.gravitySpeed;
-        this.hitBottom();
+        this.hitTopOrBottom();
     };
-    
-    this.hitBottom = function () {
-        var rockbottom = gameArea.canvas.height - this.height;
-        if (this.y > rockbottom) {
-            this.y = rockbottom;
+
+    this.hitTopOrBottom = function () {
+        var touchBottom = gameArea.canvas.height - this.height;
+
+        if (this.y > touchBottom) {
+            this.y = touchBottom;
             this.gravitySpeed = 0;
         }
+
+        if (this.y < 0) {
+            this.y = 0;
+        }
     };
-    
+
     this.crashWith = function (otherObj) {
         var left = this.x;
         var right = this.x + this.width;
@@ -89,7 +111,7 @@ function GameComponent(width, height, model, x, y, type) {
         if (bottom < otherTop || top > otherBottom || right < otherLeft || left > otherRight) {
             crash = false;
         }
-        
+
         return crash;
     }
 }
@@ -138,7 +160,17 @@ function updateGameArea() {
 }
 
 function moveUp() {
-    character.speedY -= 1;
+        if (character.y > 0) {
+            character.gravity = -0.4;
+            character.angle = -15 * Math.PI / 180;
+        }
+}
+
+function moveDown() {
+    if (character.y < gameArea.canvas.height - character.height) {
+        character.gravity = 0.2;
+        character.angle = 0;
+    }
 }
 
 function stopMove() {
