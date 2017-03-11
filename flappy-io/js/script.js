@@ -2,23 +2,14 @@ var character;
 var obstacles = [];
 var score = 0;
 
+var canvas = document.getElementById('gameArea');
+// canvas.width = window.innerWidth;
+// canvas.height = window.innerHeight;
+
 var gameArea = {
-    canvas: document.getElementById('gameArea'),
+    canvas: canvas,
     start: function () {
-        // Create canvas
-        // this.canvas.width = window.innerWidth;
-        // this.canvas.height = window.innerHeight;
-        // if (window.innerWidth > 768) {
-        //     this.canvas.width = 480;
-        //     this.canvas.height = 270;
-        //     // this.canvas.width = window.innerWidth * 70 / 100;
-        //     // this.canvas.height = window.innerHeight * 50 / 100;
-        // }
-
         this.context = this.canvas.getContext('2d');
-
-        // Insert canvas to body
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 
         // Update game area every 20ms
         this.frameNo = 0;
@@ -134,17 +125,17 @@ function updateGameArea() {
         canvasWidth = gameArea.canvas.width;
         canvasHeight = gameArea.canvas.height;
         minHeight = 30;
-        maxHeight = 200;
+        maxHeight = 180;
         height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
         minGap = 80;
-        maxGap = 200;
+        maxGap = 180;
         gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
 
         // Add top obstacle
-        obstacles.push(new GameComponent(20, height, "orange", canvasWidth, 0));
+        obstacles.push(new GameComponent(30, height, "orange", canvasWidth, 0));
 
         // Add bottom obstacle
-        obstacles.push(new GameComponent(20, canvasHeight - height - gap, "orange", canvasWidth, height + gap));
+        obstacles.push(new GameComponent(30, canvasHeight - height - gap, "orange", canvasWidth, height + gap));
 
         score++;
         document.getElementById('score').innerText = score;
