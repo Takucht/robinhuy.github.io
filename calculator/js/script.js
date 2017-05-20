@@ -42,11 +42,26 @@ new Vue({
       }
     },
     inputOperator: function(operator) {
-      if (this.currentOperator === '=') {
 
+
+      if (this.currentOperator !== "=") {
+        this.currentOperator = operator;
+        this.waitingForOperand = false;
+        this.displayValue = eval(this.calculation.join("")).toString();
+      } else {
+        // If current operator is "=", continue calculate the last calculation
+        var length = this.calculation.length;
+        this.displayValue = eval(
+          this.displayValue +
+          this.calculation[length - 2] +
+          this.calculation[length - 1]
+        ).toString();
       }
-      this.currentOperator = operator;
-      this.waitingForOperand = false;
+
+      //todo: Round to 9 digits
+
+      // Display "Error" instead of "Infinity"
+      if (this.displayValue === Infinity) this.displayValue = "Error";
     },
     clear: function() {
       // Reset current number
@@ -68,25 +83,6 @@ new Vue({
     },
     calculatePercent: function() {
 
-    },
-    performOperation: function() {
-      if (this.currentOperator !== "=") {
-        this.displayValue = eval(this.calculation.join("")).toString();
-        this.currentOperator = "=";
-      } else {
-        // If current operator is "=", continue calculate the last calculation
-        var length = this.calculation.length;
-        this.displayValue = eval(
-          this.displayValue +
-          this.calculation[length - 2] +
-          this.calculation[length - 1]
-        ).toString();
-      }
-
-      //todo: Round to 9 digits
-
-      // Display "Error" instead of "Infinity"
-      if (this.displayValue === Infinity) this.displayValue = "Error";
     }
   }
 });
