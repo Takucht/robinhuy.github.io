@@ -1,14 +1,14 @@
 new Vue({
   el: "#calculator",
   data: {
-    displayValue: "",
+    displayValue: "0",
     currentOperator: "",
     waitingForOperand: true,
     calculation: []
   },
   computed: {
-    displayValueFormatted: function() {
-      var value = this.displayValue || '0';
+    displayValueFormatted: function () {
+      var value = this.displayValue.replace(/\+/g, '') || '0';
       var number = value.split(".");
       var integerPart = number[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       var floatPart = number[1] || '';
@@ -16,7 +16,7 @@ new Vue({
     }
   },
   methods: {
-    inputDigit: function(digit) {
+    inputDigit: function (digit) {
       if (this.waitingForOperand) {
         if (this.displayValue === "0") {
           // Begin the calculation, change 0 to "digit"
@@ -41,47 +41,54 @@ new Vue({
         this.calculation.push(digit);
       }
     },
-    inputOperator: function(operator) {
-
-
-      if (this.currentOperator !== "=") {
-        this.currentOperator = operator;
-        this.waitingForOperand = false;
+    inputOperator: function (operator) {
+      if (operator === "-" || operator === "+") {
+        console.log(this.calculation)
         this.displayValue = eval(this.calculation.join("")).toString();
-      } else {
+      } else if (operator === "=") {
         // If current operator is "=", continue calculate the last calculation
-        var length = this.calculation.length;
-        this.displayValue = eval(
-          this.displayValue +
-          this.calculation[length - 2] +
-          this.calculation[length - 1]
-        ).toString();
+        if (this.currentOperator === '=') {
+          var length = this.calculation.length;
+          this.displayValue = eval(
+            this.displayValue +
+            this.calculation[length - 2] +
+            this.calculation[length - 1]
+          ).toString();
+        } else {
+          this.displayValue = eval(this.calculation.join("")).toString();
+        }
       }
 
-      //todo: Round to 9 digits
+      this.currentOperator = operator;
+      this.waitingForOperand = false;
+
+      var value = this.displayValue;
+
+      // Round to 9 digits
+      this.displayValue = parseFloat(value).toPrecision(9);
+      if (value[value.length - 1] === '0') this.displayValue = parseFloat(value).toString();
 
       // Display "Error" instead of "Infinity"
-      if (this.displayValue === Infinity) this.displayValue = "Error";
+      if (value === Infinity) this.displayValue = "Error";
     },
-    clear: function() {
+    clear: function () {
       // Reset current number
     },
-    clearAll: function() {
+    clearAll: function () {
       // Reset the calculation
       this.displayValue = "0";
       this.currentOperator = "";
       this.waitingForOperand = true;
       this.calculation = [];
     },
-    changeSign: function() {
+    changeSign: function () {
       if (this.displayValue.indexOf('-') === 0) {
         this.displayValue = this.displayValue.replace('-', '');
-
       } else {
         this.displayValue = '-' + this.displayValue;
       }
     },
-    calculatePercent: function() {
+    calculatePercent: function () {
 
     }
   }
