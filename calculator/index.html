@@ -32,9 +32,8 @@
     <div id="calculator-keypad">
         <div class="input-keys">
             <div class="function-keys">
-                <button class="key-clear" @click="clearAll">
-                    {{ this.calculation.length === 0 ? 'AC' : 'C' }}
-                </button>
+                <button v-if="!canClear" class="key-clear" @click="clearAll">AC</button>
+                <button v-else class="key-clear" @click="clear">C</button>
                 <button class="key-sign" @click="changeSign">+/<sub>−</sub></button>
                 <button class="key-percent" @click="calculatePercent">%</button>
             </div>

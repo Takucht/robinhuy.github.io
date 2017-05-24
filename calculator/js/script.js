@@ -4,31 +4,47 @@ new Vue({
     displayValue: "0",
     currentOperator: "",
     waitingForOperand: true,
-    calculation: []
+    canClear: false,
+    calculation: ["0"],
+    tempCalculation: []
   },
   computed: {
     displayValueFormatted: function () {
-      var value = this.displayValue.replace(/\+/g, '') || '0';
+      var value = this.displayValue.replace(/e\+/, 'e') || '0';
       var number = value.split(".");
       var integerPart = number[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       var floatPart = number[1] || '';
-      return floatPart === '' ? integerPart : integerPart + '.' + floatPart;
+      if (this.waitingForOperand && number.length === 2) {
+        return integerPart + '.' + floatPart;
+      } else {
+        return floatPart === '' ? integerPart : integerPart + '.' + floatPart;
+      }
     }
   },
   methods: {
     inputDigit: function (digit) {
+      var length = this.calculation.length;
+
+      this.canClear = true;
+
       if (this.waitingForOperand) {
         if (this.displayValue === "0") {
-          // Begin the calculation, change 0 to "digit"
-          this.displayValue = digit !== "." ? digit : "0.";
-          this.calculation.push(this.displayValue);
+          // Check digit is "."
+          if (digit === ".") {
+            this.displayValue = "0.";
+          } else {
+            this.displayValue = digit;
+          }
+
+          this.calculation[length - 1] += digit;
         } else {
           // Add digit to current number, maximum digits is 9
           if (this.displayValue.length < 9) {
+            // Only allow one "."
             if (digit === "." && this.displayValue.indexOf(".") !== -1) return;
 
             this.displayValue += digit;
-            this.calculation[this.calculation.length - 1] += digit;
+            this.calculation[length - 1] += digit;
           }
         }
       } else {
@@ -37,18 +53,26 @@ new Vue({
         this.waitingForOperand = true;
 
         // Add operator and digit to the calculation
-        this.calculation.push(this.currentOperator);
-        this.calculation.push(digit);
+        if (this.currentOperator !== '=') {
+          this.calculation.push(this.currentOperator);
+          this.calculation.push(digit);
+        } else {
+          this.calculation = [digit];
+        }
       }
     },
     inputOperator: function (operator) {
-      if (operator === "-" || operator === "+") {
-        console.log(this.calculation)
+      var length = this.calculation.length;
+      var currentOperator = this.currentOperator;
+
+      if ((operator === "-" || operator === "+") && length > 2) {
         this.displayValue = eval(this.calculation.join("")).toString();
       } else if (operator === "=") {
-        // If current operator is "=", continue calculate the last calculation
-        if (this.currentOperator === '=') {
-          var length = this.calculation.length;
+        if (length === 1 && currentOperator) {
+          // If the calculation only has 1 number, calculate itself with current operator
+          this.displayValue = eval(this.calculation[0] + currentOperator + this.calculation[0]);
+        } else if (currentOperator === '=') {
+          // If current operator is "=", continue calculate the last calculation
           this.displayValue = eval(
             this.displayValue +
             this.calculation[length - 2] +
@@ -62,24 +86,33 @@ new Vue({
       this.currentOperator = operator;
       this.waitingForOperand = false;
 
-      var value = this.displayValue;
-
       // Round to 9 digits
-      this.displayValue = parseFloat(value).toPrecision(9);
+      this.displayValue = (+(+this.displayValue).toFixed(8)).toPrecision(9);
+
+      // Remove insignificant trailing zeros of float number
+      var value = this.displayValue;
       if (value[value.length - 1] === '0') this.displayValue = parseFloat(value).toString();
 
       // Display "Error" instead of "Infinity"
-      if (value === Infinity) this.displayValue = "Error";
+      if (value === "Infinity") this.displayValue = "Error";
     },
     clear: function () {
       // Reset current number
+      this.canClear = false;
+      this.displayValue = '0';
+
+      var length = this.calculation.length;
+      if (this.waitingForOperand) {
+        this.calculation[length - 1] = '0';
+      }
     },
     clearAll: function () {
       // Reset the calculation
       this.displayValue = "0";
       this.currentOperator = "";
       this.waitingForOperand = true;
-      this.calculation = [];
+      this.calculation = ["0"];
+      this.tempNumber = '';
     },
     changeSign: function () {
       if (this.displayValue.indexOf('-') === 0) {
@@ -87,9 +120,17 @@ new Vue({
       } else {
         this.displayValue = '-' + this.displayValue;
       }
+
+      if (this.waitingForOperand) {
+        this.calculation[this.calculation.length - 1] = this.displayValue;
+      }
     },
     calculatePercent: function () {
+      this.displayValue = (+this.displayValue / 100).toString();
 
+      if (this.waitingForOperand) {
+        this.calculation[this.calculation.length - 1] = this.displayValue;
+      }
     }
   }
 });
