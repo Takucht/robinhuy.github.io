@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100');
-
 * {
 	box-sizing: border-box;
 }
@@ -46,25 +45,8 @@ body {
 	height: 250px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
+	border-bottom: 1px solid #262626;
 	overflow: hidden;
-}
-
-#calculator-keypad .input-keys {
-	width: 240px;
-	background-color: #717171;
-}
-
-#calculator-keypad .digit-keys {
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-ms-flex-direction: row;
-	flex-direction: row;
-	-ms-flex-wrap: wrap-reverse;
-	flex-wrap: wrap-reverse;
-}
-
-#calculator-keypad .operator-keys {
-	background-color: #fe9807;
 }
 
 #calculator-keypad button {
@@ -86,13 +68,40 @@ body {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+#calculator-keypad .input-keys {
+	width: 240px;
+	background-color: #717171;
+}
+
 #calculator-keypad .input-keys button {
-	border-bottom: 1px solid #262626;
+	border-top: 1px solid #262626;
 	border-left: 1px solid #262626;
 }
 
 #calculator-keypad .input-keys button:active {
 	background-color: #838383;
+}
+
+#calculator-keypad .digit-keys {
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-ms-flex-wrap: wrap-reverse;
+	flex-wrap: wrap-reverse;
+}
+
+#calculator-keypad .digit-keys .key-0 {
+	width: 160px;
+	border-bottom-left-radius: 5px;
+}
+
+#calculator-keypad .digit-keys .key-dot {
+	padding-top: 8px;
+}
+
+#calculator-keypad .operator-keys {
+	background-color: #fe9807;
 }
 
 #calculator-keypad .operator-keys button {
@@ -104,28 +113,21 @@ body {
 	border-bottom: 0;
 }
 
-#calculator-keypad .operator-keys button.active {
-	border: 0;
-}
-
-#calculator-keypad .operator-keys button.active + button {
-	border-top: 0;
+#calculator-keypad .operator-keys button span {
+	display: block;
+	height: 50px;
+	line-height: 48px;
 }
 
 #calculator-keypad .operator-keys button.active > span {
-	display: block;
-	height: 50px;
-	border: 2px solid #000000;
+	border: 1px solid #000000;
+	border-bottom: 2px solid #000000;
 }
 
 #calculator-keypad .operator-keys button:active {
 	background-color: #fecb3a;
 }
 
-#calculator-keypad .digit-keys .key-0 {
-	width: 160px;
-}
-
-#calculator-keypad .digit-keys .key-dot {
-	padding-top: 8px;
+#calculator-keypad .operator-keys .key-equal {
+	border-bottom-right-radius: 5px;
 }
