@@ -53,21 +53,35 @@ new Vue({
         });
     },
     getThumbnail: function(status, size) {
-      switch (status) {
-        case "Sunny":
+      switch (status.toLowerCase()) {
+        case "hot":
+          return "https://ssl.gstatic.com/onebox/weather/" + size + "/hot.png";
+        case "sunny":
           return "https://ssl.gstatic.com/onebox/weather/" + size + "/sunny.png";
-        case "Thunderstorms":
+        case "thunderstorms":
+        case "severe thunderstorms":
           return "https://ssl.gstatic.com/onebox/weather/" + size + "/thunderstorms.png";
-        case "Scattered Thunderstorms":
+        case "scattered thunderstorms":
           return "https://ssl.gstatic.com/onebox/weather/" + size + "/rain_s_cloudy.png";
-        case "Partly Cloudy":
+        case "partly cloudy":
+        case "mostly cloudy":
           return "https://ssl.gstatic.com/onebox/weather/" + size + "/partly_cloudy.png";
-        case "Cloudy":
+        case "cloudy":
           return "https://ssl.gstatic.com/onebox/weather/" + size + "/cloudy.png";
-        case "Showers":
+        case "showers":
+        case "scattered showers":
           return "https://ssl.gstatic.com/onebox/weather/" + size + "/rain_light.png";
-        case "Rain":
+        case "rain":
           return "https://ssl.gstatic.com/onebox/weather/" + size + "/rain.png";
+        case "snow":
+        case "heavy snow":
+        case "snow flurries":
+        case "blowing snow":
+          return "https://ssl.gstatic.com/onebox/weather/" + size + "/snow.png";
+        case "sleet":
+          return "https://ssl.gstatic.com/onebox/weather/" + size + "/sleet.png";
+        case "windy":
+          return "https://ssl.gstatic.com/onebox/weather/" + size + "/windy.png";
         default:
           return "https://ssl.gstatic.com/onebox/weather/" + size + "/cloudy.png";
       }
