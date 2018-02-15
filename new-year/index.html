@@ -68,7 +68,7 @@ var music = null;
 var settings = {
   min_amount:15,
   max_amount:250,
-  min_mag:10,
+  min_mag:5,
   max_mag:30,
   min_life:15,
   max_life:100
@@ -261,7 +261,7 @@ function makeFirework(amount, x, y) {
     var s = new createjs.Bitmap(particle.cacheCanvas);
     var angle = Math.random() * 360;
     s.compositeOperation = "screen";
-    var mag = settings.min_mag+(Math.random()*settings.max_mag) * (0.2+ +(Math.random()/2).toFixed(2));
+    var mag = settings.min_mag+(Math.random()*settings.max_mag) * (0.1+ +(Math.random()/2).toFixed(2));
     s.xSpeed = (mag*scale) * Math.cos(angle);
     s.ySpeed = (mag*scale) * Math.sin(angle);
     s.index = createjs.Ticker.getTime();
