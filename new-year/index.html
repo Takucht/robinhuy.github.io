@@ -46,6 +46,10 @@
     HAPPY NEW YEAR
 </canvas>
 
+<audio autoplay>
+  <source src="assets/happy-new-year.mp3" type="audio/mpeg">
+</audio>
+
 <!-- https://codepen.io/derossi_s/pen/BJReeb -->
 <script src="https://rawgit.com/CreateJS/EaselJS/master/lib/easeljs.min.js"></script>
 <script src="https://rawgit.com/CreateJS/TweenJS/master/lib/tweenjs.min.js"></script>
@@ -64,8 +68,8 @@ var music = null;
 var settings = {
   min_amount:15,
   max_amount:250,
-  min_mag:15,
-  max_mag:25,
+  min_mag:10,
+  max_mag:30,
   min_life:15,
   max_life:100
 };
@@ -74,8 +78,7 @@ var lastEvent;
 
 function loadAssets() {
   manifest = [
-    {src: "assets/firework.mp3", id: "firework"},
-    {src: "assets/happy-new-year.mp3", id: "newyear"}
+    {src: "assets/firework.mp3", id: "firework"}
   ];
 
   loader = new createjs.LoadQueue(true);
@@ -202,13 +205,6 @@ function loadComplete() {
 
 function handleComplete(event) {
   firework = createjs.Sound.createInstance("firework");
-  music = createjs.Sound.createInstance("newyear");
-
-  music.loop = -1;
-  music.volume = 0;
-
-  music.play();
-  setMusicVolume(music, 1, 400);
 }
 
 function setMusicVolume(music, volume, time) {
@@ -265,7 +261,7 @@ function makeFirework(amount, x, y) {
     var s = new createjs.Bitmap(particle.cacheCanvas);
     var angle = Math.random() * 360;
     s.compositeOperation = "screen";
-    var mag = settings.min_mag+(Math.random()*settings.max_mag) * 0.5;
+    var mag = settings.min_mag+(Math.random()*settings.max_mag) * (0.2+ +(Math.random()/2).toFixed(2));
     s.xSpeed = (mag*scale) * Math.cos(angle);
     s.ySpeed = (mag*scale) * Math.sin(angle);
     s.index = createjs.Ticker.getTime();
