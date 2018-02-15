@@ -24,6 +24,7 @@
             margin: 0px;
             background-color: #000000;
             overflow: hidden;
+            cursor: pointer;
         }
         canvas {
             position: absolute;
@@ -60,6 +61,10 @@
 <script>
 var canvas, stage;
 var sprites = [];
+// var sprites_colors = [
+//   ["#FFFFFF","#FD863E","#EC7D3A","#BB632E","#8E4B22","#683719","#482611","#2D180A","#190D06","#0B0602","#030101","#000000"],
+//   ["#FFFFFF","#3efbfd","#3adaec","#2eadbb","#22888e","#683719","#196068","#0a292d","#061719","#020b0b","#010303","#000000"]
+// ];
 var offset = new createjs.Point();
 var gravity = 0.0052;
 var firework = null;
@@ -205,11 +210,6 @@ function loadComplete() {
 
 function handleComplete(event) {
   firework = createjs.Sound.createInstance("firework");
-}
-
-function setMusicVolume(music, volume, time) {
-  createjs.Tween.get(music, {override:true}).to({volume:volume}, time).call(function() {
-  });
 }
 
 function handleMouseDown(event) {
