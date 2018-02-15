@@ -7,7 +7,7 @@
     <meta property="og:site_name" content="robinhuy.github.io">
     <meta property="og:title" content="Robin Huy">
     <meta property="og:description" content="HTML, CSS, Javascript applications">
-    <meta property="og:image" content="https://robinhuy.github.io/new-year/img/2018.jpg">
+    <meta property="og:image" content="https://robinhuy.github.io/new-year/img/thumb.jpg">
     <meta property="og:locale" content="vi_VN">
     <meta property="og:url" content="https://robinhuy.github.io/new-year/">
     <meta property="og:type" content="article">
@@ -33,6 +33,7 @@
     HAPPY NEW YEAR
 </canvas>
 
+<!-- https://codepen.io/derossi_s/pen/BJReeb -->
 <script src="https://rawgit.com/CreateJS/EaselJS/master/lib/easeljs.min.js"></script>
 <script src="https://rawgit.com/CreateJS/TweenJS/master/lib/tweenjs.min.js"></script>
 <script src="https://rawgit.com/CreateJS/PreloadJS/master/lib/preloadjs.min.js"></script>
@@ -44,7 +45,7 @@ var canvas, stage;
 var sprites = [];
 var offset = new createjs.Point();
 var gravity = 0.0052;
-var bam = null;
+var firework = null;
 var music = null;
 
 var settings = {
@@ -56,10 +57,12 @@ var settings = {
   max_life:100
 };
 
+var lastEvent;
+
 function loadAssets() {
   manifest = [
-    {src: "assets/firework.mp3", id: "bam"},
-    {src: "assets/happy-new-year.mp3", id: "newyears"}
+    {src: "assets/firework.mp3", id: "firework"},
+    {src: "assets/happy-new-year.mp3", id: "newyear"}
   ];
 
   loader = new createjs.LoadQueue(true);
@@ -76,13 +79,13 @@ function init() {
   img1.src="img/Path.png";
 
   img2 = new Image();
-  img2.src="img/Bitmap1b.png";
+  img2.src="img/year-number.png";
 
   img3 = new Image();
-  img3.src="img/Bitmap2b.png";
+  img3.src="img/year-text.png";
 
   img4 = new Image();
-  img4.src="img/Bitmap6a.png";
+  img4.src="img/age.png";
 
   img4.onload = loadComplete;
 }
@@ -121,7 +124,6 @@ function loadComplete() {
   path.x = -150;
   path.y = 0;
   path.compositeOperation = "screen";
-
 
   logo = new createjs.Bitmap(img4);
 
@@ -188,8 +190,8 @@ function loadComplete() {
 }
 
 function handleComplete(event) {
-  bam = createjs.Sound.createInstance("bam");
-  music = createjs.Sound.createInstance("newyears");
+  firework = createjs.Sound.createInstance("firework");
+  music = createjs.Sound.createInstance("newyear");
 
   music.loop = -1;
   music.volume = 0;
@@ -204,8 +206,8 @@ function setMusicVolume(music, volume, time) {
 }
 
 function handleMouseDown(event) {
-  if (bam != null) {
-    bam.play();
+  if (firework != null) {
+    firework.play();
   }
   makeFirework(settings.min_amount + Math.random()* settings.max_amount | 0, stage.mouseX-settings.min_amount, stage.mouseY-settings.min_amount);
 }
@@ -213,8 +215,8 @@ function handleMouseDown(event) {
 function makeExplosion() {
   var rangeX = getRange(100*scale, canvas.width-(100*scale));
   var rangeY = getRange(100*scale, canvas.height>>1);
-  if (bam != null) {
-    bam.play();
+  if (firework != null) {
+    firework.play();
   }
   makeFirework(settings.min_amount + Math.random()* settings.max_amount | 0, rangeX, rangeY);
 }
@@ -223,7 +225,7 @@ function getRange(min, max) {
   var scale = max - min;
   return Math.random()*scale+ min;
 }
-var lastEvent;
+
 function tick(event) {
   lastEvent=event;
   for(var i=sprites.length-1;i>=0;i--) {
@@ -240,7 +242,6 @@ function tick(event) {
       particleContainer.removeChild(s);
     }
   }
-
 
   stage.update(event);
 }
