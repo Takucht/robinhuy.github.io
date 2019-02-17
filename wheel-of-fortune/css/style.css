@@ -31,18 +31,32 @@ img {
     max-width: 1265px;
     max-height: 616px;
     height: 100%;
+    display: flex;
 }
 
-.content {
-    position: relative;
-    overflow: auto;
-    z-index: 2;
+.btn {
+    cursor: pointer;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: #1e88e5;
+    min-height: 30px;
+    border-radius: 2px;
+    min-width: 100px;
+    margin-right: 10px;
+    vertical-align: middle;
+    transition: all .3s ease-out;
+    border: none;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.19),0 2px 2px 0 rgba(0,0,0,0.13);
+    -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.19),0 2px 2px 0 rgba(0,0,0,0.13);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.19),0 2px 2px 0 rgba(0,0,0,0.13);
 }
 
-#wheel{
+.btn:hover {
+    background-color: #1976d2;
+}
+
+#wheel {
     margin: auto;
-    width: 500px;
-    height: 500px;
 }
 
 #modal, #modal-backdrop {
@@ -72,4 +86,10 @@ img {
     -moz-box-shadow: 0 5px 15px rgba(0,0,0,.5);
     box-shadow: 0 5px 15px rgba(0,0,0,.5);
     overflow: auto;
+}
+
+@media (max-width: 550px) {
+    #modal .dialog {
+        width: 90%;
+    }
 }

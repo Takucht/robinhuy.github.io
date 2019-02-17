@@ -1,6 +1,6 @@
-var padding = { top: 20, right: 40, bottom: 0, left: 0 },
-    w = 500 - padding.left - padding.right,
-    h = 500 - padding.top - padding.bottom,
+var padding = { top: 20, right: 0, bottom: 0, left: 0 },
+    w = 400 - padding.left - padding.right,
+    h = 400 - padding.top - padding.bottom,
     r = Math.min(w, h) / 2,
     circleRadius = 30,
     rotation = 0,
@@ -54,7 +54,7 @@ arcs.append("text").attr("transform", function (d) {
     d.innerRadius = 0;
     d.outerRadius = r;
     d.angle = (d.startAngle + d.endAngle) / 2;
-    return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius - 10) + ")";
+    return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius - 10) + ", 4)";
 })
     .attr("text-anchor", "end")
     .text(function (d, i) {
@@ -62,6 +62,26 @@ arcs.append("text").attr("transform", function (d) {
     });
 
 container.on("click", spin);
+
+// Draw arrow
+container.append('path')
+    .attr('d', 'M12,-12 L' + (circleRadius * 1.6) + ',0 L12,12 Z')
+    .style({ 'fill': '#565656' });
+
+// Draw spin circle
+container.append('circle')
+    .attr('cx', 0)
+    .attr('cy', 0)
+    .attr('r', circleRadius)
+    .style({ 'fill': 'white', 'cursor': 'pointer' });
+
+// Draw spin text
+container.append('text')
+    .attr('x', 0)
+    .attr('y', 6)
+    .attr('text-anchor', 'middle')
+    .text('SPIN')
+    .style({ 'font-weight': 'bold', 'font-size': '20px', 'cursor': 'pointer' });
 
 function spin(d) {
     container.on("click", null);
@@ -103,7 +123,7 @@ function spin(d) {
             // Display result
             d3.select("#modal h1")
                 .text(data[picked].label);
-            setTimeout(function() {
+            setTimeout(function () {
                 displayResultModal();
             }, 1000);
 
@@ -112,26 +132,6 @@ function spin(d) {
             container.on("click", spin);
         });
 }
-
-// Draw arrow
-container.append('path')
-    .attr('d', 'M12,-12 L' + (circleRadius * 2) + ',0 L12,12 Z')
-    .style({ 'fill': 'black' });
-
-// Draw spin circle
-container.append('circle')
-    .attr('cx', 0)
-    .attr('cy', 0)
-    .attr('r', circleRadius)
-    .style({ 'fill': 'white', 'cursor': 'pointer' });
-
-// Draw spin text
-// container.append("text")
-//     .attr("x", 0)
-//     .attr("y", 15)
-//     .attr("text-anchor", "middle")
-//     .text("SPIN")
-//     .style({ "font-weight": "bold", "font-size": "30px" });
 
 function rotateTween(to) {
     var interpolate = d3.interpolate(oldrotation % 360, rotation);
