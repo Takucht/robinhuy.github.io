@@ -121,8 +121,8 @@ function spin(d) {
             // d3.select(".slice:nth-child(" + (picked + 1) + ") path").attr("fill", "#111");
 
             // Display result
-            d3.select("#modal h1")
-                .text(data[picked].label);
+            d3.select("#modal h1").text(data[picked].label);
+            
             setTimeout(function () {
                 displayResultModal();
             }, 1000);

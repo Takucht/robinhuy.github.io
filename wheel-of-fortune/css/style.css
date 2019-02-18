@@ -2,10 +2,15 @@
 	box-sizing: border-box;
 }
 
+html {
+	height: 100%;
+}
+
 body {
 	margin: 0;
 	padding: 0;
 	overflow-y: scroll;
+	height: 100%;
 }
 
 h1 {
@@ -25,13 +30,13 @@ img {
 }
 
 .wrap {
-    position: relative;
 	margin: auto;
-    padding: 15px;
     max-width: 1265px;
     max-height: 616px;
     height: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn {
@@ -56,7 +61,7 @@ img {
 }
 
 #wheel {
-    margin: auto;
+    margin-top: -15px;
 }
 
 #modal, #modal-backdrop {
@@ -89,7 +94,25 @@ img {
 }
 
 @media (max-width: 550px) {
+	h1 {
+		font-size: 30px;
+	}
+
+	#wheel {
+		transform: scale(0.8);
+	}
+
     #modal .dialog {
         width: 90%;
     }
+}
+
+@media (max-width: 430px) {
+	h1 {
+		font-size: 25px;
+	}
+
+	#wheel {
+		transform: scale(0.7);
+	}
 }
