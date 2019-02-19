@@ -1,3 +1,5 @@
+
+var container, data, vis;
 var padding = { top: 20, right: 0, bottom: 0, left: 0 },
     w = 400 - padding.left - padding.right,
     h = 400 - padding.top - padding.bottom,
@@ -5,83 +7,93 @@ var padding = { top: 20, right: 0, bottom: 0, left: 0 },
     circleRadius = 30,
     rotation = 0,
     oldrotation = 0,
-    picked = 100000,
     oldpick = [],
+    picked = 100000,
     color = d3.scale.category20();
 
-var data = [
-    { "label": "Number One" },
-    { "label": "Number Two" },
-    { "label": "Number Three" },
-    { "label": "Number Four" },
-    { "label": "Number Five" },
-    { "label": "Number Six" },
-    { "label": "Number Seven" },
-    { "label": "Number Eight" },
-    { "label": "Number Nine" },
-    { "label": "Number Ten" },
-];
+window.onload = function() {
+    loadData();
+}
 
-var svg = d3.select('#wheel')
-    .append("svg")
-    .data([data])
-    .attr("width", w + padding.left + padding.right)
-    .attr("height", h + padding.top + padding.bottom);
+function loadData() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            try {
+                var response = JSON.parse(this.responseText);
+                data = response.data;
+                renderContent();
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+    xhttp.open("GET", "data.json", true);
+    xhttp.send();
+}
 
-var container = svg.append("g")
-    .attr("transform", "translate(" + (w / 2 + padding.left) + "," + (h / 2 + padding.top) + ")");
+function renderContent() {
+    var svg = d3.select('#wheel')
+        .append("svg")
+        .data([data])
+        .attr("width", w + padding.left + padding.right)
+        .attr("height", h + padding.top + padding.bottom);
 
-var vis = container.append("g");
+    container = svg.append("g")
+        .attr("transform", "translate(" + (w / 2 + padding.left) + "," + (h / 2 + padding.top) + ")");
 
-var pie = d3.layout.pie().sort(null).value(function (d) { return 1; });
+    vis = container.append("g");
 
-// declare an arc generator function
-var arc = d3.svg.arc().outerRadius(r);
+    var pie = d3.layout.pie().sort(null).value(function (d) { return 1; });
 
-// select paths, use arc generator to draw
-var arcs = vis.selectAll("g.slice")
-    .data(pie)
-    .enter()
-    .append("g")
-    .attr("class", "slice");
+    // declare an arc generator function
+    var arc = d3.svg.arc().outerRadius(r);
 
-arcs.append("path")
-    .attr("fill", function (d, i) { return color(i); })
-    .attr("d", function (d) { return arc(d); });
+    // select paths, use arc generator to draw
+    var arcs = vis.selectAll("g.slice")
+        .data(pie)
+        .enter()
+        .append("g")
+        .attr("class", "slice");
 
-// Add the text
-arcs.append("text").attr("transform", function (d) {
-    d.innerRadius = 0;
-    d.outerRadius = r;
-    d.angle = (d.startAngle + d.endAngle) / 2;
-    return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius - 10) + ", 4)";
-})
-    .attr("text-anchor", "end")
-    .text(function (d, i) {
-        return data[i].label;
-    });
+    arcs.append("path")
+        .attr("fill", function (d, i) { return color(i); })
+        .attr("d", function (d) { return arc(d); });
 
-container.on("click", spin);
+    // Add the text
+    arcs.append("text").attr("transform", function (d) {
+        d.innerRadius = 0;
+        d.outerRadius = r;
+        d.angle = (d.startAngle + d.endAngle) / 2;
+        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius - 10) + ", 4)";
+    })
+        .attr("text-anchor", "end")
+        .text(function (d, i) {
+            return data[i].label;
+        });
 
-// Draw arrow
-container.append('path')
-    .attr('d', 'M12,-12 L' + (circleRadius * 1.6) + ',0 L12,12 Z')
-    .style({ 'fill': '#565656' });
+    container.on("click", spin);
 
-// Draw spin circle
-container.append('circle')
-    .attr('cx', 0)
-    .attr('cy', 0)
-    .attr('r', circleRadius)
-    .style({ 'fill': 'white', 'cursor': 'pointer' });
+    // Draw arrow
+    container.append('path')
+        .attr('d', 'M12,-12 L' + (circleRadius * 1.6) + ',0 L12,12 Z')
+        .style({ 'fill': '#565656' });
 
-// Draw spin text
-container.append('text')
-    .attr('x', 0)
-    .attr('y', 6)
-    .attr('text-anchor', 'middle')
-    .text('SPIN')
-    .style({ 'font-weight': 'bold', 'font-size': '20px', 'cursor': 'pointer' });
+    // Draw spin circle
+    container.append('circle')
+        .attr('cx', 0)
+        .attr('cy', 0)
+        .attr('r', circleRadius)
+        .style({ 'fill': 'white', 'cursor': 'pointer' });
+
+    // Draw spin text
+    container.append('text')
+        .attr('x', 0)
+        .attr('y', 6)
+        .attr('text-anchor', 'middle')
+        .text('SPIN')
+        .style({ 'font-weight': 'bold', 'font-size': '20px', 'cursor': 'pointer' });
+}
 
 function spin(d) {
     container.on("click", null);
@@ -108,8 +120,6 @@ function spin(d) {
     // } else {
     //     oldpick.push(picked);
     // }
-
-    oldpick.push(picked);
 
     rotation += 90 - Math.round(ps / 2);
 
