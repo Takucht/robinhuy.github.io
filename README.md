@@ -7,3 +7,4 @@
 2. Memory Card (jQuery)
 3. Kanban Board (Web application)
 4. Calculator (VueJS 2)
+
