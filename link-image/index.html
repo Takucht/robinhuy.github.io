@@ -1,0 +1,50 @@
+<html>
+<head>
+	<title>Menu</title>
+	<meta charset="UTF-8" />
+
+	<style>
+		/*Toàn bộ thẻ có class="parent-menu"*/
+		.parent-menu {}
+
+		/*Toàn bộ thẻ li*/
+		li {}
+
+		/*Thẻ có id="parent-menu"*/
+		#parent-menu {}
+
+		/*Toàn bộ thẻ li nằm trong ul*/
+		ul li {}
+
+		/*Toàn bộ các thẻ*/
+		* {}
+
+		/*Toàn bộ thẻ ul có class="parent-menu"*/
+		ul.parent-menu {}
+
+		/*Toàn bộ thẻ li nằm trong thẻ ul có class="parent-menu"*/
+		ul.parent-menu li {}
+
+		/*Toàn bộ thẻ li có class="parent-menu" nằm trong thẻ ul có class="parent-menu"*/
+		ul.parent-menu li.parent-menu {}
+
+		/*Thẻ li có id="parent-menu" nằm trong ul*/
+		ul li#parent-menu {}
+
+		/*Toàn bộ thẻ li là con trực tiếp của thẻ ul có class="parent-menu"*/
+		ul.parent-menu > li {
+			background: red;
+		}
+
+		/*Toàn bộ thẻ li có class="item active"*/
+		ul li.item.active {}
+	</style>
+</head>
+
+<body>
+	<ul class="parent-menu">
+		<li></li>
+		<li></li>
+	</ul>
+</body>
+</html>
