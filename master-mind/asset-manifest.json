@@ -1,15 +1,17 @@
 {
   "files": {
-    "main.css": "/master-mind/static/css/main.e7e46d57.chunk.css",
-    "main.js": "/master-mind/static/js/main.3f9f03c2.chunk.js",
-    "main.js.map": "/master-mind/static/js/main.3f9f03c2.chunk.js.map",
+    "main.css": "/master-mind/static/css/main.c00f9be4.chunk.css",
+    "main.js": "/master-mind/static/js/main.04d91a4e.chunk.js",
+    "main.js.map": "/master-mind/static/js/main.04d91a4e.chunk.js.map",
     "runtime~main.js": "/master-mind/static/js/runtime~main.7d8a37f8.js",
     "runtime~main.js.map": "/master-mind/static/js/runtime~main.7d8a37f8.js.map",
-    "static/js/2.a4ffd8cf.chunk.js": "/master-mind/static/js/2.a4ffd8cf.chunk.js",
-    "static/js/2.a4ffd8cf.chunk.js.map": "/master-mind/static/js/2.a4ffd8cf.chunk.js.map",
+    "static/css/2.72fa3724.chunk.css": "/master-mind/static/css/2.72fa3724.chunk.css",
+    "static/js/2.f9dc2d6d.chunk.js": "/master-mind/static/js/2.f9dc2d6d.chunk.js",
+    "static/js/2.f9dc2d6d.chunk.js.map": "/master-mind/static/js/2.f9dc2d6d.chunk.js.map",
     "index.html": "/master-mind/index.html",
-    "precache-manifest.3c4dd2746d704bb8f1c2b8b20b304b63.js": "/master-mind/precache-manifest.3c4dd2746d704bb8f1c2b8b20b304b63.js",
+    "precache-manifest.9bd6374c8620c662b57613fd726e0480.js": "/master-mind/precache-manifest.9bd6374c8620c662b57613fd726e0480.js",
     "service-worker.js": "/master-mind/service-worker.js",
-    "static/css/main.e7e46d57.chunk.css.map": "/master-mind/static/css/main.e7e46d57.chunk.css.map"
+    "static/css/2.72fa3724.chunk.css.map": "/master-mind/static/css/2.72fa3724.chunk.css.map",
+    "static/css/main.c00f9be4.chunk.css.map": "/master-mind/static/css/main.c00f9be4.chunk.css.map"
   }
 }
