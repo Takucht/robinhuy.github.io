@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/master-mind/static/css/main.c00f9be4.chunk.css",
-    "main.js": "/master-mind/static/js/main.04d91a4e.chunk.js",
-    "main.js.map": "/master-mind/static/js/main.04d91a4e.chunk.js.map",
+    "main.css": "/master-mind/static/css/main.89c59cef.chunk.css",
+    "main.js": "/master-mind/static/js/main.91f320e8.chunk.js",
+    "main.js.map": "/master-mind/static/js/main.91f320e8.chunk.js.map",
     "runtime~main.js": "/master-mind/static/js/runtime~main.7d8a37f8.js",
     "runtime~main.js.map": "/master-mind/static/js/runtime~main.7d8a37f8.js.map",
     "static/css/2.72fa3724.chunk.css": "/master-mind/static/css/2.72fa3724.chunk.css",
     "static/js/2.f9dc2d6d.chunk.js": "/master-mind/static/js/2.f9dc2d6d.chunk.js",
     "static/js/2.f9dc2d6d.chunk.js.map": "/master-mind/static/js/2.f9dc2d6d.chunk.js.map",
     "index.html": "/master-mind/index.html",
-    "precache-manifest.9bd6374c8620c662b57613fd726e0480.js": "/master-mind/precache-manifest.9bd6374c8620c662b57613fd726e0480.js",
+    "precache-manifest.0ad9a2360c76050f28557bf2d35d97ca.js": "/master-mind/precache-manifest.0ad9a2360c76050f28557bf2d35d97ca.js",
     "service-worker.js": "/master-mind/service-worker.js",
     "static/css/2.72fa3724.chunk.css.map": "/master-mind/static/css/2.72fa3724.chunk.css.map",
-    "static/css/main.c00f9be4.chunk.css.map": "/master-mind/static/css/main.c00f9be4.chunk.css.map"
+    "static/css/main.89c59cef.chunk.css.map": "/master-mind/static/css/main.89c59cef.chunk.css.map"
   }
 }
